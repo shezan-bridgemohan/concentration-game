@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./landing-page.component.scss']
 })
 export class LandingPageComponent implements OnInit {
+  player1Name: string = '';
+  player2Name: string = '';
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  getPlayerNames() {
+    alert("Welcome "+this.player1Name + " & " + this.player2Name);
+  }
 }
