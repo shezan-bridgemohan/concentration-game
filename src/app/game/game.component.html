@@ -1,1 +1,117 @@
-<p>game works!</p>
+<style>
+    .opaque {
+        background-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .game-board {
+        height: 85vh;
+    }
+
+    .flex-container {
+        display: flex;
+        flex-wrap: nowrap;
+        height: 16.67%;
+    }
+
+    .flex-container>div {
+        background-image: url('../../assets/img/card-back.png');
+        background-size: cover;
+        width: 11.1%;
+        margin: 5px;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card text-center opaque" style="background-color: transparent;">
+                <img src="../../assets/img/player-1.png" class="img-fluid">
+                <div class="card-body">
+                    <h2 class="card-title">Player 1</h2>
+                    <p class="card-text">Score: 10</p>
+                    <button class="btn btn-success btn-block">It's your turn</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 text-center">
+            <div class="card game-board opaque">
+                <div class="flex-container">
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                </div>
+                <div class="flex-container">
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                </div>
+                <div class="flex-container">
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                </div>
+                <div class="flex-container">
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                </div>
+                <div class="flex-container">
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                </div>
+                <div class="flex-container">
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 text-right">
+            <div class="card text-center opaque" style="background-color: transparent;">
+                <img src="../../assets/img/player-2.png" class="img-fluid">
+                <div class="card-body">
+                    <h2 class="card-title">Player 2</h2>
+                    <p class="card-text">Score: 10</p>
+                    <button class="btn btn-warning btn-block">It's your turn</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
