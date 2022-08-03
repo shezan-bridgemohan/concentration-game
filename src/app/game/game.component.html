@@ -4,17 +4,12 @@
     }
 
     .player-card {
-        height: 50%;
+        height: 100%;
         width: 100%;
         padding: .5em;
         display: flex;
         align-items: center;
-        justify-content: center;
-    }
-
-    .player-card .card-footer {
-        border-top: none;
-        background-color: transparent;
+        justify-content: space-evenly;
     }
 
     .game-board {
@@ -36,41 +31,49 @@
     .card-container .card-img-back {
         content: url('../../assets/img/card-back.png');
     }
+
+    /* Animations */
+    @keyframes flip-horizontal-bottom {
+        0% {
+            transform: rotateX(0);
+        }
+
+        100% {
+            transform: rotateX(-180deg);
+        }
+    }
+
+    .flip-horizontal-bottom {
+        animation: flip-horizontal-bottom 0.4s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+    }
 </style>
 
 <div class="container-fluid pt-5">
-    <div class="row">
+    <div class="row h-100">
         <div class="col-md-2 d-flex align-items-center">
-            <div class="card player-card text-center opaque">
+            <div class="card player-card opaque">
                 <img src="../../assets/img/player-1.png" class="img-fluid">
-                <div class="card-body">
-                    <h2 class="card-title">Player 1</h2>
-                    <p class="card-text">Score: 10</p>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-success btn-block" *ngIf="playerTurn">It's your turn</button>
-                </div>
+                <h1>{{player1Name}}</h1><br>
+                <h2>Score: {{player1Score}}</h2>
+                <button class="btn btn-success btn-block" *ngIf="player1Turn">It's your turn</button>
             </div>
         </div>
         <div class="col-md-8 text-center">
             <div class="card game-board opaque">
                 <div class="card-container">
                     <div *ngFor="let shuffledCard of shuffledCards;">
-                        <img class="card-img card-img-back" id={{shuffledCard.id}} src={{shuffledCard.img}} (click)="cardClick(shuffledCard.id)">
+                        <img class="card-img card-img-back" id={{shuffledCard.id}} src={{shuffledCard.img}}
+                            (click)="cardClick(shuffledCard.id, shuffledCard.value, shuffledCard.color)">
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-2 text-right d-flex align-items-center">
-            <div class="card player-card text-center opaque">
+        <div class="col-md-2">
+            <div class="card player-card opaque">
                 <img src="../../assets/img/player-2.png" class="img-fluid">
-                <div class="card-body">
-                    <h2 class="card-title">Player 2</h2>
-                    <p class="card-text">Score: 10</p>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-success btn-block" *ngIf="!playerTurn">It's your turn</button>
-                </div>
+                <h1>{{player2Name}}</h1><br>
+                <h2>Score: {{player2Score}}</h2>
+                <button class="btn btn-success btn-block" *ngIf="!player1Turn">It's your turn</button>
             </div>
         </div>
     </div>
