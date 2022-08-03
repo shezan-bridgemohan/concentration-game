@@ -3,6 +3,20 @@
         background-color: rgba(255, 255, 255, 0.35);
     }
 
+    .player-card {
+        height: 50%;
+        width: 100%;
+        padding: .5em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .player-card .card-footer {
+        border-top: none;
+        background-color: transparent;
+    }
+
     .game-board {
         height: 100%;
     }
@@ -16,42 +30,46 @@
 
     .card-container .card-img {
         margin: 5px;
-        width: 4.25vw;
+        width: 5vw;
     }
 
-    .card-container .selected-card-img {
+    .card-container .card-img-back {
         content: url('../../assets/img/card-back.png');
     }
 </style>
 
-<div class="container-fluid">
+<div class="container-fluid pt-5">
     <div class="row">
-        <div class="col-md-3">
-            <div class="card text-center opaque" style="background-color: transparent;">
+        <div class="col-md-2 d-flex align-items-center">
+            <div class="card player-card text-center opaque">
                 <img src="../../assets/img/player-1.png" class="img-fluid">
                 <div class="card-body">
                     <h2 class="card-title">Player 1</h2>
                     <p class="card-text">Score: 10</p>
-                    <button class="btn btn-success btn-block">It's your turn</button>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-success btn-block" *ngIf="playerTurn">It's your turn</button>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 text-center">
+        <div class="col-md-8 text-center">
             <div class="card game-board opaque">
                 <div class="card-container">
                     <div *ngFor="let shuffledCard of shuffledCards;">
-                        <img class="card-img" src={{shuffledCard.img}} (click)="cardClick()" [ngClass]="clicked ? '' : 'selected-card-img'">
+                        <img class="card-img card-img-back" id={{shuffledCard.id}} src={{shuffledCard.img}} (click)="cardClick(shuffledCard.id)">
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 text-right">
-            <div class="card text-center opaque" style="background-color: transparent;">
+        <div class="col-md-2 text-right d-flex align-items-center">
+            <div class="card player-card text-center opaque">
                 <img src="../../assets/img/player-2.png" class="img-fluid">
                 <div class="card-body">
                     <h2 class="card-title">Player 2</h2>
                     <p class="card-text">Score: 10</p>
-                    <button class="btn btn-warning btn-block">It's your turn</button>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-success btn-block" *ngIf="!playerTurn">It's your turn</button>
                 </div>
             </div>
         </div>
