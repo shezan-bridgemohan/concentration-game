@@ -4,20 +4,23 @@
     }
 
     .game-board {
-        height: 85vh;
+        height: 100%;
     }
 
-    .flex-container {
+    .card-container {
         display: flex;
-        flex-wrap: nowrap;
-        height: 16.67%;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
     }
 
-    .flex-container>div {
-        background-image: url('../../assets/img/card-back.png');
-        background-size: cover;
-        width: 11.1%;
+    .card-container .card-img {
         margin: 5px;
+        width: 4.25vw;
+    }
+
+    .card-container .selected-card-img {
+        content: url('../../assets/img/card-back.png');
     }
 </style>
 
@@ -35,71 +38,10 @@
         </div>
         <div class="col-md-6 text-center">
             <div class="card game-board opaque">
-                <div class="flex-container">
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                </div>
-                <div class="flex-container">
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                </div>
-                <div class="flex-container">
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                </div>
-                <div class="flex-container">
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                </div>
-                <div class="flex-container">
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                </div>
-                <div class="flex-container">
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
-                    <div class="card"></div>
+                <div class="card-container">
+                    <div *ngFor="let shuffledCard of shuffledCards;">
+                        <img class="card-img" src={{shuffledCard.img}} (click)="cardClick()" [ngClass]="clicked ? '' : 'selected-card-img'">
+                    </div>
                 </div>
             </div>
         </div>
