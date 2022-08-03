@@ -3,6 +3,10 @@
         background-color: rgba(255, 255, 255, 0.35);
     }
 
+    .opacity-50 {
+opacity: 0.5;
+    }
+
     .player-card {
         height: 100%;
         width: 100%;
@@ -26,6 +30,7 @@
     .card-container .card-img {
         margin: 5px;
         width: 5vw;
+        transform: rotateY(0deg) !important;
     }
 
     .card-container .card-img-back {
@@ -36,10 +41,12 @@
     @keyframes flip-horizontal-bottom {
         0% {
             transform: rotateX(0);
+            transform: rotateY(-180deg);
         }
 
         100% {
             transform: rotateX(-180deg);
+            transform: rotateY(0deg);
         }
     }
 
@@ -51,7 +58,7 @@
 <div class="container-fluid pt-5">
     <div class="row h-100">
         <div class="col-md-2 d-flex align-items-center">
-            <div class="card player-card opaque">
+            <div class="card player-card opaque" id="p1-card" [ngClass]="player1Turn ? '' : 'opacity-50'">
                 <img src="../../assets/img/player-1.png" class="img-fluid">
                 <h1>{{player1Name}}</h1><br>
                 <h2>Score: {{player1Score}}</h2>
@@ -60,7 +67,7 @@
         </div>
         <div class="col-md-8 text-center">
             <div class="card game-board opaque">
-                <div class="card-container">
+                <div class="card-container" id="card-container">
                     <div *ngFor="let shuffledCard of shuffledCards;">
                         <img class="card-img card-img-back" id={{shuffledCard.id}} src={{shuffledCard.img}}
                             (click)="cardClick(shuffledCard.id, shuffledCard.value, shuffledCard.color)">
@@ -69,7 +76,7 @@
             </div>
         </div>
         <div class="col-md-2">
-            <div class="card player-card opaque">
+            <div class="card player-card opaque" id="p2-card" [ngClass]="!player1Turn ? '' : 'opacity-50'">
                 <img src="../../assets/img/player-2.png" class="img-fluid">
                 <h1>{{player2Name}}</h1><br>
                 <h2>Score: {{player2Score}}</h2>

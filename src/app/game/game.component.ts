@@ -13,7 +13,9 @@ export class GameComponent implements OnInit {
 
   player1Score: number = 0;
   player2Score: number = 0;
+  winnerMessage = '';
 
+  numberOfCards: number = 54;
 
   clicked: boolean = false;
   clickCount: number = 0;
@@ -32,14 +34,8 @@ export class GameComponent implements OnInit {
   };
 
   flipCards(): void {
-    document.getElementById(this.SelectedCard1.id).classList.add('card-img-back'); //Flip unmatched card 1
-    document.getElementById(this.SelectedCard2.id).classList.add('card-img-back'); //Flip unmatched card 2
-  }
-
-  whosTurn(): void {
-    if (this.clickCount == 0) {
-      this.flipCards();
-    }
+    // document.getElementById(this.SelectedCard1.id).classList.add('card-img-back'); //Flip unmatched card 1
+    // document.getElementById(this.SelectedCard2.id).classList.add('card-img-back'); //Flip unmatched card 2
   }
 
   reset(): void {
@@ -50,6 +46,32 @@ export class GameComponent implements OnInit {
     this.SelectedCard2.value = '';
     this.SelectedCard2.color = '';
   }
+
+  winner() {
+    if (this.numberOfCards <= 1) {
+      if (this.player1Score > this.player2Score) {
+        this.winnerMessage = "The winner is Player 1 !"
+      }
+      else if (this.player2Score > this.player1Score) {
+        this.winnerMessage = "The winner is Player 2 !"
+      }
+      else if (this.player1Score == this.player2Score) {
+        this.winnerMessage = "The game ends in a tie !"
+      }
+      alert(this.winnerMessage);
+    }
+  }
+
+  // whosTurn(): void {
+  //   if (this.player1Turn == true) {
+  //     document.getElementById("p1-card").classList.remove('opacity-50');
+  //     document.getElementById("p2-card").classList.add('opacity-50');
+  //   }
+  //   else if (this.player1Turn == false) {
+  //     document.getElementById("p1-card").classList.add('opacity-50');
+  //     document.getElementById("p2-card").classList.remove('opacity-50');
+  //   }
+  // }
 
   readonly playingCards = [
     {
@@ -451,6 +473,8 @@ export class GameComponent implements OnInit {
   shuffledCards = this.shuffle(this.playingCards);
 
   cardClick(id, value, color) {
+    // this.whosTurn();
+    this.winner();
     document.getElementById(id).classList.add('flip-horizontal-bottom');
     setTimeout(() => { document.getElementById(id).classList.remove('card-img-back'); }, 200);
 
@@ -473,6 +497,7 @@ export class GameComponent implements OnInit {
         alert("You've matched 2 cards! " + this.SelectedCard1.id + " & " + this.SelectedCard2.id);
         document.getElementById(this.SelectedCard1.id).remove(); //Remove matched card 1 from board
         document.getElementById(this.SelectedCard2.id).remove(); //Remove matched card 2 from board
+        this.numberOfCards -= 2;
 
         //=====Increment Player 1 Score
         if (this.player1Turn == true) {
