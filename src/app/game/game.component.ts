@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Card } from '../models/card.model';
+import { PlayerService } from '.././player.service';
 
 @Component({
   selector: 'app-game',
@@ -8,8 +9,8 @@ import { Card } from '../models/card.model';
 })
 
 export class GameComponent implements OnInit {
-  @Input() player1Name: string = 'Shiz';
-  @Input() player2Name: string = 'Jeri';
+  @Input() player1Name: string = '';
+  @Input() player2Name: string = '';
 
   player1Score: number = 0;
   player2Score: number = 0;
@@ -494,6 +495,10 @@ export class GameComponent implements OnInit {
 
       //========== Card matching logic
       if (this.SelectedCard1.value == this.SelectedCard2.value && this.SelectedCard1.color == this.SelectedCard2.color) {
+        const success = document.getElementById("success-sound") as HTMLVideoElement | null;
+        if (success != null) {
+          success.play();
+        }
         alert("You've matched 2 cards! " + this.SelectedCard1.id + " & " + this.SelectedCard2.id);
         document.getElementById(this.SelectedCard1.id).remove(); //Remove matched card 1 from board
         document.getElementById(this.SelectedCard2.id).remove(); //Remove matched card 2 from board
@@ -513,6 +518,10 @@ export class GameComponent implements OnInit {
       else if (this.SelectedCard1.value != this.SelectedCard2.value || this.SelectedCard1.color != this.SelectedCard2.color) {
         // document.getElementById(this.SelectedCard1.id).classList.add('card-img-back'); //Flip unmatched card 1
         // document.getElementById(this.SelectedCard2.id).classList.add('card-img-back'); //Flip unmatched card 2
+        const warning = document.getElementById("warning-sound") as HTMLVideoElement | null;
+        if (warning != null) {
+          warning.play();
+        }
       }
 
       this.flipCards();
@@ -522,9 +531,15 @@ export class GameComponent implements OnInit {
     }
   }
 
-  constructor() { }
+  constructor(private playerService: PlayerService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.playerService.SelectedPlayer1Name$.subscribe((value1) => {
+      this.playerService.SelectedPlayer1Name$ = value1;
+    });
+    this.playerService.SelectedPlayer2Name$.subscribe((value2) => {
+      this.playerService.SelectedPlayer2Name$ = value2;
+    });
+
   }
-
 }
