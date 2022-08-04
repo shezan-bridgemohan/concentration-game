@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Card } from '../models/card.model';
-import { PlayerService } from '.././player.service';
 
 @Component({
   selector: 'app-game',
@@ -9,18 +8,15 @@ import { PlayerService } from '.././player.service';
 })
 
 export class GameComponent implements OnInit {
+  //========================== Variables
   @Input() player1Name: string = '';
   @Input() player2Name: string = '';
-
   player1Score: number = 0;
   player2Score: number = 0;
-  winnerMessage = '';
-
   numberOfCards: number = 54;
-
-  clicked: boolean = false;
   clickCount: number = 0;
   player1Turn: boolean = true;
+  winnerMessage = '';
 
   SelectedCard1: Card = {
     id: '',
@@ -34,22 +30,42 @@ export class GameComponent implements OnInit {
     color: ''
   };
 
-  flipCards(): void {
-    // document.getElementById(this.SelectedCard1.id).classList.add('card-img-back'); //Flip unmatched card 1
-    // document.getElementById(this.SelectedCard2.id).classList.add('card-img-back'); //Flip unmatched card 2
+  //========================== Functions
+  flipCards() {
+    this.shuffledCards.forEach((element) => {
+      document.getElementById(element.id).classList.add('card-img-back'); //Flip unmatched cards
+    });
+  }
+
+  removeCards(): void {
+    document.getElementById(this.SelectedCard1.id).remove(); //Remove matched card 1 from board
+    document.getElementById(this.SelectedCard2.id).remove(); //Remove matched card 2 from board
   }
 
   reset(): void {
+    this.clickCount = 0;
     this.SelectedCard1.id = '';
     this.SelectedCard1.value = '';
     this.SelectedCard1.color = '';
     this.SelectedCard2.id = '';
     this.SelectedCard2.value = '';
     this.SelectedCard2.color = '';
+    this.flipCards();
+  }
+
+  incrementScore(player1Turn) {
+    //=====Increment Player 1 Score
+    if (this.player1Turn == true) {
+      this.player1Score += 10;
+    }
+    //=====Increment Player 2 Score
+    else if (this.player1Turn == false) {
+      this.player2Score += 10;
+    }
   }
 
   winner() {
-    if (this.numberOfCards <= 1) {
+    if (this.numberOfCards < 2) {
       if (this.player1Score > this.player2Score) {
         this.winnerMessage = "The winner is Player 1 !"
       }
@@ -63,17 +79,27 @@ export class GameComponent implements OnInit {
     }
   }
 
-  // whosTurn(): void {
-  //   if (this.player1Turn == true) {
-  //     document.getElementById("p1-card").classList.remove('opacity-50');
-  //     document.getElementById("p2-card").classList.add('opacity-50');
-  //   }
-  //   else if (this.player1Turn == false) {
-  //     document.getElementById("p1-card").classList.add('opacity-50');
-  //     document.getElementById("p2-card").classList.remove('opacity-50');
-  //   }
-  // }
+  sound(state) {
+    state = document.getElementById(state + "-sound") as HTMLVideoElement | null;
+    if (state != null) {
+      state.play();
+    }
+  }
 
+  matchedCards() {
+    this.sound('success');
+    alert("You've matched 2 cards! " + this.SelectedCard1.id + " & " + this.SelectedCard2.id);
+    this.incrementScore(this.player1Turn);
+    this.removeCards();
+    this.numberOfCards -= 2;
+  }
+
+  unmatchedCards() {
+    document.getElementById(this.SelectedCard1.id).style.pointerEvents = 'auto';
+  }
+
+
+  //========================== Cards JSON object
   readonly playingCards = [
     {
       suite: "clubs",
@@ -452,9 +478,10 @@ export class GameComponent implements OnInit {
       color: "joker",
       id: "black-joker",
       img: "../../assets/img/cards/joker-black.png"
-    },
+    }
   ];
 
+  //========================== Shuffle card order
   shuffle(array) {
     let currentIndex = array.length, randomIndex;
     // While there remain elements to shuffle.
@@ -470,76 +497,46 @@ export class GameComponent implements OnInit {
     }
     return array;
   }
-
   shuffledCards = this.shuffle(this.playingCards);
 
+  //========================== Card click function
   cardClick(id, value, color) {
-    // this.whosTurn();
-    this.winner();
     document.getElementById(id).classList.add('flip-horizontal-bottom');
     setTimeout(() => { document.getElementById(id).classList.remove('card-img-back'); }, 200);
 
-    //========== Click < 1
+    //============================= Start Click = 0
     if (this.clickCount < 1) {
       this.SelectedCard1.id = id;
       this.SelectedCard1.value = value;
       this.SelectedCard1.color = color;
-      return this.clickCount++;
+      this.clickCount = 1;
+      document.getElementById(this.SelectedCard1.id).style.pointerEvents = 'none';
     }
-    //========== Click = 2
+    //============================= End Click = 1
+    //============================= Start Click = 1
     else if (this.clickCount = 2) {
       this.SelectedCard2.id = id;
       this.SelectedCard2.value = value;
       this.SelectedCard2.color = color;
-      this.clicked = !this.clicked;
-
-      //========== Card matching logic
-      if (this.SelectedCard1.value == this.SelectedCard2.value && this.SelectedCard1.color == this.SelectedCard2.color) {
-        const success = document.getElementById("success-sound") as HTMLVideoElement | null;
-        if (success != null) {
-          success.play();
-        }
-        alert("You've matched 2 cards! " + this.SelectedCard1.id + " & " + this.SelectedCard2.id);
-        document.getElementById(this.SelectedCard1.id).remove(); //Remove matched card 1 from board
-        document.getElementById(this.SelectedCard2.id).remove(); //Remove matched card 2 from board
-        this.numberOfCards -= 2;
-
-        //=====Increment Player 1 Score
-        if (this.player1Turn == true) {
-          this.player1Score += 10;
-        }
-        //=====Increment Player 2 Score
-        else if (this.player1Turn == false) {
-          this.player2Score += 10;
-        }
-      }
-
-      //========== Card not matching logic
-      else if (this.SelectedCard1.value != this.SelectedCard2.value || this.SelectedCard1.color != this.SelectedCard2.color) {
-        // document.getElementById(this.SelectedCard1.id).classList.add('card-img-back'); //Flip unmatched card 1
-        // document.getElementById(this.SelectedCard2.id).classList.add('card-img-back'); //Flip unmatched card 2
-        const warning = document.getElementById("warning-sound") as HTMLVideoElement | null;
-        if (warning != null) {
-          warning.play();
-        }
-      }
-
-      this.flipCards();
       this.player1Turn = !this.player1Turn; //Switch Players turn
-      this.reset(); //Reset selected cards
-      return this.clickCount = 0; //Reset click count
+      // this.clickCount = 2; //============================= Click = 2
+
+      //============================= Card matching logic
+      if (this.SelectedCard1.value == this.SelectedCard2.value && this.SelectedCard1.color == this.SelectedCard2.color && this.SelectedCard1.id != this.SelectedCard2.id) {
+        this.matchedCards();
+      }
+
+      //============================= Card not matching logic
+      else if (this.SelectedCard1.value != this.SelectedCard2.value || this.SelectedCard1.color != this.SelectedCard2.color) {
+        this.unmatchedCards();
+      }
+
+      this.winner();
+      this.reset(); // Reset selected cards
     }
   }
 
-  constructor(private playerService: PlayerService) { }
+  constructor() { }
 
-  ngOnInit(): void {
-    this.playerService.SelectedPlayer1Name$.subscribe((value1) => {
-      this.playerService.SelectedPlayer1Name$ = value1;
-    });
-    this.playerService.SelectedPlayer2Name$.subscribe((value2) => {
-      this.playerService.SelectedPlayer2Name$ = value2;
-    });
-
-  }
+  ngOnInit(): void { }
 }
