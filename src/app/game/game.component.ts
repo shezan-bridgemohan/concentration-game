@@ -35,9 +35,9 @@ export class GameComponent implements OnInit {
 
   //========================== Functions
   flipCards() {
-    // this.shuffledCards.forEach((element) => {
-    //   document.getElementById(element.id).classList.add('card-img-back'); //Flip unmatched cards
-    // });
+    this.shuffledCards.forEach((element) => {
+      document.getElementById(element.id).classList.add('card-img-back'); //Flip unmatched cards
+    });
   }
 
   removeCards(): void {
@@ -68,8 +68,8 @@ export class GameComponent implements OnInit {
   }
 
   winner() {
-    // if (this.numberOfCards < 2) {
-    if (this.numberOfCards < 50) {
+    if (this.numberOfCards < 2) {
+    // if (this.numberOfCards < 50) {
       if (this.player1Score > this.player2Score) {
         this.winnerMessage = "The winner is Player 1 !"
         document.getElementById('p1-card').classList.remove('opaque');
