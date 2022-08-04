@@ -8,9 +8,12 @@ import { Card } from '../models/card.model';
 })
 
 export class GameComponent implements OnInit {
+
+  constructor() { }
+
   //========================== Variables
-  @Input() player1Name: string = '';
-  @Input() player2Name: string = '';
+  player1Name: string = localStorage.getItem("player1");
+  player2Name: string = localStorage.getItem("player2");
   player1Score: number = 0;
   player2Score: number = 0;
   numberOfCards: number = 54;
@@ -32,9 +35,9 @@ export class GameComponent implements OnInit {
 
   //========================== Functions
   flipCards() {
-    this.shuffledCards.forEach((element) => {
-      document.getElementById(element.id).classList.add('card-img-back'); //Flip unmatched cards
-    });
+    // this.shuffledCards.forEach((element) => {
+    //   document.getElementById(element.id).classList.add('card-img-back'); //Flip unmatched cards
+    // });
   }
 
   removeCards(): void {
@@ -65,16 +68,25 @@ export class GameComponent implements OnInit {
   }
 
   winner() {
-    if (this.numberOfCards < 2) {
+    // if (this.numberOfCards < 2) {
+    if (this.numberOfCards < 50) {
       if (this.player1Score > this.player2Score) {
         this.winnerMessage = "The winner is Player 1 !"
+        document.getElementById('p1-card').classList.remove('opaque');
+        document.getElementById('p1-card').classList.add('bg-green');
+        document.getElementById('p2-card').classList.add('bg-red');
       }
       else if (this.player2Score > this.player1Score) {
         this.winnerMessage = "The winner is Player 2 !"
+        document.getElementById('p2-card').classList.remove('opaque');
+        document.getElementById('p2-card').classList.add('bg-green');
+        document.getElementById('p1-card').classList.add('bg-red');
       }
       else if (this.player1Score == this.player2Score) {
         this.winnerMessage = "The game ends in a tie !"
       }
+      this.sound('winner');
+      this.player1Turn = null; //Switch Players turn
       alert(this.winnerMessage);
     }
   }
@@ -97,7 +109,6 @@ export class GameComponent implements OnInit {
   unmatchedCards() {
     document.getElementById(this.SelectedCard1.id).style.pointerEvents = 'auto';
   }
-
 
   //========================== Cards JSON object
   readonly playingCards = [
@@ -536,7 +547,6 @@ export class GameComponent implements OnInit {
     }
   }
 
-  constructor() { }
-
-  ngOnInit(): void { }
+  ngOnInit(): void {
+  }
 }

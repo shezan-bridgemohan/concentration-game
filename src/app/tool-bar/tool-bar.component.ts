@@ -9,6 +9,11 @@ export class ToolBarComponent implements OnInit {
 
   constructor() { }
 
+  resetPlayers() {
+    localStorage.removeItem("player1");
+    localStorage.removeItem("player2");
+  }
+
   ngOnInit(): void {
   }
 

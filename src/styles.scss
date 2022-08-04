@@ -39,8 +39,20 @@ body {
     background-color: rgba(255, 255, 255, 0.35);
 }
 
-.opacity-50 {
-    opacity: 0.5;
+.bg-green {
+    background-color: rgb(123 221 148);
+}
+
+.bg-red {
+    background-color: rgb(206 116 116);
+}
+
+.opacity-33 {
+    opacity: 0.33;
+}
+
+.opacity-33 .rotate-left, .opacity-33 .rotate-right {
+    animation: none !important;
 }
 
 .player-card {
