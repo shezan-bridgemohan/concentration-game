@@ -1,19 +1,19 @@
 <style>
     .card-container .card-img-back {
-        content: url('../../assets/img/card-back.png');
+        content: url('./assets/img/card-back.png');
     }
 </style>
 <audio id="success-sound">
-    <source src="../../assets/sounds/mario-money-sound.mp3" type="audio/mpeg">
+    <source src="./assets/sounds/mario-money-sound.mp3" type="audio/mpeg">
 </audio>
 <audio id="winner-sound">
-    <source src="../../assets/sounds/winner.mp3" type="audio/mpeg">
+    <source src="./assets/sounds/winner.mp3" type="audio/mpeg">
 </audio>
 <div class="container-fluid pt-sm-2 pt-lg-5">
     <div class="row h-100">
         <div class="col-sm-6 col-lg-2 order-sm-2 order-lg-1 d-flex align-items-center">
             <div class="card player-card opaque" id="p1-card" [ngClass]="player1Turn ? '' : 'opacity-33'">
-                <img src="../../assets/img/player-1.png" class="img-fluid rotate-left">
+                <img src="./assets/img/player-1.png" class="img-fluid rotate-left">
                 <h1>{{player1Name}}</h1><br>
                 <h2>Score: {{player1Score}}</h2>
                 <button class="btn btn-success btn-block" *ngIf="player1Turn">It's your turn</button>
@@ -31,7 +31,7 @@
         </div>
         <div class="col-sm-6 col-lg-2 order-sm-3 order-lg-3">
             <div class="card player-card opaque" id="p2-card" [ngClass]="!player1Turn ? '' : 'opacity-33'">
-                <img src="../../assets/img/player-2.png" class="img-fluid rotate-right">
+                <img src="./assets/img/player-2.png" class="img-fluid rotate-right">
                 <h1>{{player2Name}}</h1><br>
                 <h2>Score: {{player2Score}}</h2>
                 <button class="btn btn-success btn-block" *ngIf="!player1Turn">It's your turn</button>
